@@ -128,6 +128,4 @@ def lambda_handler(event, context):
 
         # 問題をTweetする
         tweet(key1, key2, key3, key4, centerKanji, Sequence())
-
-        print "success!"
-        sys.exit()
+        return { "messages":"success!" }

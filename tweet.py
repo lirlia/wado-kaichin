@@ -41,3 +41,4 @@ def tweet(key1, key2, key3, key4, ans, number):
         print ("OK")
     else:
         print ("Error: %d" % req.status_code)
+        sys.exit()
