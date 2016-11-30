@@ -21,7 +21,7 @@ def tweet(key1, key2, key3, key4, ans, number):
     # ツイート投稿用のURL
     url = "https://api.twitter.com/1.1/statuses/update.json"
 
-    date = u"[第" + number + u"問目] #わどうかいちん #集計謎\n\n"
+    date = u"[第" + number + u"問目] #わどうかいちん #解けたらRT #集計謎\n\n"
     data = date + u"　　　　" + key1 + u"\n\n"
     data = data + u"　　　　⬇️\n\n"
     data = data + key2 + u"　➡️　？　➡️　" + key3 + u"\n"
