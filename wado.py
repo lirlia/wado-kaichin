@@ -58,6 +58,8 @@ def SearchJukugo(word, key, searchFlag):
     )
 
     wordList = []
+    searchCountAmount = 0
+
     for i in response['Items']:
 
         if searchFlag == True:
@@ -66,11 +68,13 @@ def SearchJukugo(word, key, searchFlag):
 
         if key == 'word1':
             wordList.append(i['word2'])
+            searchCountAmount = searchCountAmount + int(i['serchCount'])
 
         if key == 'word2':
             wordList.append(i['word1'])
+            searchCountAmount = searchCountAmount + int(i['serchCount'])
 
-    return wordList
+    return [wordList, searchCountAmount]
 
 def lambda_handler(event, context):
   #
@@ -85,8 +89,8 @@ def lambda_handler(event, context):
         # ?人/人?　を一覧化する
         # frontKeyList: 後ろが人のもの
         # backKeyList: 先頭が人のもの
-        frontKeyList = SearchJukugo(centerKanji, 'word2', True)
-        backKeyList = SearchJukugo(centerKanji, 'word1', True)
+        frontKeyList, frontAmount = SearchJukugo(centerKanji, 'word2', True)
+        backKeyList, backAmount = SearchJukugo(centerKanji, 'word1', True)
 
         # 人を使う熟語が1つしか存在しない場合はやり直し
         if len(frontKeyList) < 2 or len(backKeyList) < 2:
@@ -127,5 +131,5 @@ def lambda_handler(event, context):
                     continue
 
         # 問題をTweetする
-        tweet(key1, key2, key3, key4, centerKanji, Sequence())
+        tweet(key1, key2, key3, key4, centerKanji, Sequence(), frontAmount + backAmount)
         return { "messages":"success!" }
