@@ -52,9 +52,9 @@ def GetKanji(num):
 def SearchJukugo(word, key, searchFlag):
 
     table = dynamodb.Table(conf.tableNameJukugo)
-    response = table.scan(
-        TableName = conf.tableNameJukugo,
-        FilterExpression = Key(key).begins_with(word)
+    response = table.query(
+        IndexName= key + '-index',
+        KeyConditionExpression=Key(key).eq(word)
     )
 
     wordList = []
