@@ -38,7 +38,7 @@ def tweet(key1, key2, key3, key4, ans, number, searchCountAmount):
     data = data + u"難易度（目安）:" + difficulty(searchCountAmount) + "\n\n"
     data = data + u"　　　　" + key1 + u"\n\n"
     data = data + u"　　　　⬇️\n\n"
-    data = data + key2 + u"　➡️　？　➡️　" + key3 + u"\n"
+    data = data + key2 + u"　➡️　？　➡️　" + key3 + u"\n\n"
     data = data + u"　　　　⬇️\n\n"
     data = data + u"　　　　" + key4 + u"\n\n"
     data = data + u"\n▼解答はこちら\n"
