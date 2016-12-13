@@ -77,10 +77,18 @@ def SearchJukugo(word, key, searchFlag):
     return [wordList, searchCountAmount]
 
 def lambda_handler(event, context):
-  #
-  # 見つかるまでループ
-  #
-  while 1:
+    count = int(os.getenv("Wado_Count", 10))
+
+    #
+    # 見つかるまでループ
+    #
+    while count > -1:
+
+        # 規定回数ループ
+        count = count - 1
+
+        # 答えの単一性チェックフラグ
+        doubleFlag = False
 
         # 和同開珎で使用する真ん中の漢字を取得（問題）
         # 以降「人」と表現する
@@ -119,17 +127,24 @@ def lambda_handler(event, context):
         # 人以外にないかを確認するために
         # それぞれにくっつく文字を取得
         #
-        key1JukugoList = SearchJukugo(key1, 'word1', False)
-        key2JukugoList = SearchJukugo(key2, 'word1', False)
-        key3JukugoList = SearchJukugo(key3, 'word2', False)
-        key4JukugoList = SearchJukugo(key4, 'word2', False)
+        key1JukugoList = SearchJukugo(key1, 'word1', False)[0]
+        key2JukugoList = SearchJukugo(key2, 'word1', False)[0]
+        key3JukugoList = SearchJukugo(key3, 'word2', False)[0]
+        key4JukugoList = SearchJukugo(key4, 'word2', False)[0]
 
         # 人　以外にないかを確認する
         for key in key1JukugoList:
             if key in key2JukugoList and key in key3JukugoList and key in key4JukugoList:
                 if key != centerKanji:
-                    continue
+                    doubleFlag = True
+                    break
+
+        # 複数回答チェックで引っかかったらエラー
+        if doubleFlag == True: continue
 
         # 問題をTweetする
         tweet(key1, key2, key3, key4, centerKanji, Sequence(), frontAmount + backAmount)
+
         return { "messages":"success!" }
+
+    return { "messages":"failure not get wado-kaichin" }
