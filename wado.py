@@ -147,4 +147,4 @@ def lambda_handler(event, context):
 
         return { "messages":"success!" }
 
-    return { "messages":"failure not get wado-kaichin" }
+    sys.exit(1)
